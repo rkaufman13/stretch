@@ -1,23 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import {
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithCredential,
+  signInWithPopup,
+} from "firebase/auth";
+
+import app, { auth, provider } from "./firebase";
+
+import { useEffect, useState } from "react";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
+        setUser(result.user);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    if (!user) {
+      getRedirectResult(getAuth())
+        .then((result) => console.log(result))
+        .catch((error) => console.log(error));
+    }
+  }, [user]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {user ? (
+        <div>Hello {user.name}</div>
+      ) : (
+        <div>
+          Please log in:{" "}
+          <form method="post" onSubmit={handleSignIn}>
+            <input name="email"></input>
+            <input name="password"></input>
+            <button type="submit">Sign In With Google</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
