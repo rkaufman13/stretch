@@ -1,15 +1,6 @@
 import "./App.css";
 
-import {
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult,
-  getAuth,
-  signInWithEmailAndPassword,
-  signInWithCredential,
-  signInWithPopup,
-} from "firebase/auth";
+import { getRedirectResult, getAuth, signInWithPopup } from "firebase/auth";
 
 import app, { auth, provider } from "./firebase";
 
