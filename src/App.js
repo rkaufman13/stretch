@@ -1,13 +1,22 @@
 import "./App.css";
 
+<<<<<<< HEAD
 import { getRedirectResult, getAuth, signInWithPopup } from "firebase/auth";
+=======
+import {
+  getAuth,
+  getRedirectResult,
+  signInWithPopup,
+  UserCredential
+} from "firebase/auth";
+>>>>>>> main
 
-import app, { auth, provider } from "./firebase";
+import { auth, provider } from "./firebase";
 
 import { useEffect, useState } from "react";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(JSON.parse(window.localStorage.getItem('user'))?.user ?? null);
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -15,6 +24,7 @@ function App() {
       .then((result) => {
         console.log(result);
         setUser(result.user);
+        window.localStorage.setItem('user', JSON.stringify(result))
       })
       .catch((e) => console.log(e));
   };
