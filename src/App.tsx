@@ -3,9 +3,9 @@ import "./App.css";
 import { getRedirectResult, User } from "firebase/auth";
 
 import { auth, signInWithGooglePopup } from "./firebase";
-import GoogleButton from "react-google-button";
 
 import React, { useEffect, useState } from "react";
+import { SignInButton } from "./sign-in/SignInButton";
 
 const App = () => {
   const [user, setUser] = useState<User | null>(auth.currentUser);
@@ -36,19 +36,18 @@ const App = () => {
   }, [auth, user]);
 
   if (isLoading) {
-    return <div className="App">Loading...</div>;
+    return <div className="centered">Loading...</div>;
   }
 
   return (
-    <div className="App">
-      {user ? (
-        <div>Hello {user.displayName}</div>
-      ) : (
-        <div className="centered">
-          <GoogleButton onClick={handleSignIn} />
-        </div>
-      )}
-    </div>
+    <>
+      <div className="centered">
+        {user ? (
+          <div>Hello {user.displayName}</div>
+        ) : (
+          <SignInButton onClick={handleSignIn} />
+        )}
+      </div></>
   );
 };
 
