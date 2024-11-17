@@ -20,17 +20,16 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const provider = new GoogleAuthProvider();
+export const auth = getAuth();
 
 // for localdev only
 if (import.meta.env.MODE === "development") {
-  connectAuthEmulator(getAuth(), "http://127.0.0.1:9099");
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
 } else {
   provider.setCustomParameters({
     prompt: "select_account",
   });
 }
-export const auth = getAuth();
-
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export default app;

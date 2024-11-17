@@ -11,5 +11,5 @@
   align-items: center;
   flex-direction: column;
   contain: content;
-  background: 50% 0/60% no-repeat url('/stretch.svg');
+  background: 50% 0/60% no-repeat url("/stretch.svg");
 }

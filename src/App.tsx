@@ -6,6 +6,7 @@ import { auth, signInWithGooglePopup } from "./firebase";
 
 import React, { useEffect, useState } from "react";
 import { SignInButton } from "./sign-in/SignInButton";
+import { Spinner } from "@chakra-ui/react";
 
 const App = () => {
   const [user, setUser] = useState<User | null>(auth.currentUser);
@@ -36,7 +37,11 @@ const App = () => {
   }, [auth, user]);
 
   if (isLoading) {
-    return <div className="centered">Loading...</div>;
+    return (
+      <div className="centered">
+        <Spinner size="lg" color="var(--logo-color)" />
+      </div>
+    );
   }
 
   return (
@@ -47,7 +52,8 @@ const App = () => {
         ) : (
           <SignInButton onClick={handleSignIn} />
         )}
-      </div></>
+      </div>
+    </>
   );
 };
 
