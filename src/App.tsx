@@ -11,18 +11,16 @@ const App = () => {
   const [user, setUser] = useState<User | null>(auth.currentUser);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSignIn = async () => {
+  const handleSignIn = () => {
     setIsLoading(true);
-    await signInWithGooglePopup()
-      .then((result) => {
-        setUser(result.user);
-      })
+    signInWithGooglePopup()
+      .then((result) => setUser(result.user))
       .catch((_) => setIsLoading(false));
   };
 
   useEffect(() => {
     setIsLoading(true);
-    auth.onAuthStateChanged(async (user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
       }
@@ -30,10 +28,16 @@ const App = () => {
       setIsLoading(false);
     });
 
-    getRedirectResult(auth)
-      .catch(console.log)
-      .finally(() => setIsLoading(false));
-  }, [auth]);
+    if (!user) {
+      getRedirectResult(auth)
+        .catch(console.warn)
+        .finally(() => setIsLoading(false));
+    }
+  }, [auth, user]);
+
+  if (isLoading) {
+    return <div className="App">Loading...</div>;
+  }
 
   return (
     <div className="App">
@@ -41,7 +45,7 @@ const App = () => {
         <div>Hello {user.displayName}</div>
       ) : (
         <div className="centered">
-          <GoogleButton onClick={handleSignIn} disabled={isLoading} />
+          <GoogleButton onClick={handleSignIn} />
         </div>
       )}
     </div>
