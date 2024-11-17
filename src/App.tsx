@@ -1,36 +1,24 @@
 import "./App.css";
 
-import {
-  getAuth,
-  getRedirectResult,
-  signInWithPopup,
-  User,
-} from "firebase/auth";
+import { getRedirectResult, User } from "firebase/auth";
 
-import { auth, provider } from "./firebase";
+import { auth, signInWithGooglePopup } from "./firebase";
 
-import { useEffect, useState } from "react";
-import React from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 
 const App = () => {
-  const [user, setUser] = useState<User | null>(
-    JSON.parse(window.localStorage.getItem("user") ?? "{}")?.user ?? null,
-  );
+  const [user, setUser] = useState<User | null>(auth.currentUser);
 
-  const handleSignIn = (e) => {
-    e.preventDefault();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
-        setUser(result.user);
-        window.localStorage.setItem("user", JSON.stringify(result));
-      })
+  const handleSignIn = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    signInWithGooglePopup()
+      .then((result) => setUser(result.user))
       .catch((e) => console.log(e));
   };
 
   useEffect(() => {
     if (!user) {
-      getRedirectResult(getAuth())
+      getRedirectResult(auth)
         .then((result) => console.log(result))
         .catch((error) => console.log(error));
     }

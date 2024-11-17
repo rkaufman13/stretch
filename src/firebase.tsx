@@ -3,6 +3,7 @@ import {
   connectAuthEmulator,
   getAuth,
   GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 
 export const firebaseConfig = {
@@ -20,10 +21,15 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth();
-
 export const provider = new GoogleAuthProvider();
-// export const provider = new EmailAuthProvider();
+provider.setCustomParameters({
+  prompt: "select_account",
+});
+
 if (import.meta.env.MODE === "development") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
 }
+
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
 export default app;
