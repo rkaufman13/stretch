@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { getRedirectResult, User } from "firebase/auth";
+import { getAuth, getRedirectResult, User } from "firebase/auth";
 
 import { auth, signInWithGooglePopup } from "./firebase";
 
@@ -12,7 +12,10 @@ const App = () => {
   const handleSignIn = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     signInWithGooglePopup()
-      .then((result) => setUser(result.user))
+      .then((result) => {
+        console.log(result)
+        setUser(result.user)
+      })
       .catch((e) => console.log(e));
   };
 

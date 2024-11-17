@@ -22,10 +22,11 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth();
 export const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
-  prompt: "select_account",
-});
+// provider.setCustomParameters({
+//   prompt: "select_account",
+// });
 
+console.log(import.meta)
 if (import.meta.env.MODE === "development") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
 }
