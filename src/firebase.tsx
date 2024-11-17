@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import {
   connectAuthEmulator,
   getAuth,
-  GoogleAuthProvider
+  GoogleAuthProvider,
 } from "firebase/auth";
 
 export const firebaseConfig = {
