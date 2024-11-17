@@ -1,1 +1,24 @@
-{"users":{"key":{"first":"rachel","last":"k"}},"videos":{"duration":{"medium":{"muscleGroups":{"neck":[{"durationInSecs":30,"id":"someid","url":"whatever.com"}]}},"short":{"muscleGroups":{"neck":[{"durationInSecs":90,"id":"abc123","url":"youtube.com/video"}]}}},"total":0}}
+{
+  "users": {
+    "tUSlRnnEK9BVFSoZzKGGXlx98ryT": { "first": "rachel", "last": "k" }
+  },
+  "videos": {
+    "duration": {
+      "medium": {
+        "muscleGroups": {
+          "neck": [
+            { "durationInSecs": 30, "id": "someid", "url": "whatever.com" }
+          ]
+        }
+      },
+      "short": {
+        "muscleGroups": {
+          "neck": [
+            { "durationInSecs": 90, "id": "abc123", "url": "youtube.com/video" }
+          ]
+        }
+      }
+    },
+    "total": 0
+  }
+}
