@@ -20,13 +20,15 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const provider = new GoogleAuthProvider();
-// provider.setCustomParameters({
-//   prompt: "select_account",
-// });
 
 // for localdev only
 if (import.meta.env.MODE === "development") {
   connectAuthEmulator(getAuth(), "http://127.0.0.1:9099");
+} else {
+  provider.setCustomParameters({
+    prompt: "select_account",
+  });
+
 }
 export const auth = getAuth();
 

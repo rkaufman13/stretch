@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { getAuth, getRedirectResult, User } from "firebase/auth";
+import { User } from "firebase/auth";
 
 import { auth, signInWithGooglePopup } from "./firebase";
 
@@ -8,8 +8,10 @@ import React, { FormEvent, useEffect, useState } from "react";
 
 const App = () => {
   const [user, setUser] = useState<User | null>(auth.currentUser);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSignIn = (event: FormEvent<HTMLFormElement>) => {
+  const handleSignIn =  (event: FormEvent<HTMLFormElement>) => {
+    setIsLoading(true)
     event.preventDefault();
     signInWithGooglePopup()
       .then((result) => setUser(result.user))
@@ -17,12 +19,20 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (!user) {
-      getRedirectResult(auth)
-        .then((result) => console.log(result))
-        .catch((error) => console.log(error));
-    }
-  }, [user]);
+    setIsLoading(true);
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+      }
+      setIsLoading(false)
+    });
+  }, [auth]);
+
+  if (isLoading) {
+    return <div className="App">
+      Loading...
+    </div>
+  }
 
   return (
     <div className="App">
