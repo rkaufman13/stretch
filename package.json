@@ -11,17 +11,15 @@
     "firebaseui": "^6.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^5.1.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "firebase emulators:start && react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start-without-db": "react-scripts start"
+    "start": "firebase emulators:start && vite",
+    "start-without-db": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [
