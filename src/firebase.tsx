@@ -23,7 +23,7 @@ export const auth = getAuth();
 
 export const provider = new GoogleAuthProvider();
 // export const provider = new EmailAuthProvider();
-if (process.env.NODE_ENV === "development") {
+if (import.meta.env.MODE === "development") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
 }
 export default app;
