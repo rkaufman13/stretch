@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="App">
       {user ? (
-        <div>Hello {user.name}</div>
+        <div>Hello {user.displayName}</div>
       ) : (
         <div>
           Please log in:{" "}
