@@ -37,11 +37,7 @@ function App() {
       ) : (
         <div>
           Please log in:{" "}
-          <form method="post" onSubmit={handleSignIn}>
-            <input name="email"></input>
-            <input name="password"></input>
-            <button type="submit">Sign In With Google</button>
-          </form>
+          <button onClick={handleSignIn}>Sign In With Google</button>
         </div>
       )}
     </div>
