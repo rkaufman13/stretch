@@ -12,10 +12,7 @@ const App = () => {
   const handleSignIn = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     signInWithGooglePopup()
-      .then((result) => {
-        console.log(result)
-        setUser(result.user)
-      })
+      .then((result) => setUser(result.user))
       .catch((e) => console.log(e));
   };
 
