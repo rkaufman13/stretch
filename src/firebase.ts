@@ -28,7 +28,6 @@ if (import.meta.env.MODE === "development") {
   provider.setCustomParameters({
     prompt: "select_account",
   });
-
 }
 export const auth = getAuth();
 
