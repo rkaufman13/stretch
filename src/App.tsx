@@ -4,17 +4,16 @@ import {
   getAuth,
   getRedirectResult,
   signInWithPopup,
-  UserCredential,
+  User
 } from "firebase/auth";
 
 import { auth, provider } from "./firebase";
 
 import { useEffect, useState } from "react";
+import React from "react";
 
 function App() {
-  const [user, setUser] = useState(
-    JSON.parse(window.localStorage.getItem("user"))?.user ?? null,
-  );
+  const [user, setUser] = useState<User | null>(JSON.parse(window.localStorage.getItem('user') ?? '{}')?.user ?? null);
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -22,7 +21,7 @@ function App() {
       .then((result) => {
         console.log(result);
         setUser(result.user);
-        window.localStorage.setItem("user", JSON.stringify(result));
+        window.localStorage.setItem('user', JSON.stringify(result))
       })
       .catch((e) => console.log(e));
   };
@@ -38,7 +37,7 @@ function App() {
   return (
     <div className="App">
       {user ? (
-        <div>Hello {user.name}</div>
+        <div>Hello {user.displayName}</div>
       ) : (
         <div>
           Please log in:{" "}
