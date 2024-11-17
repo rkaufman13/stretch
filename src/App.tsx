@@ -12,7 +12,7 @@ import { auth, provider } from "./firebase";
 import { useEffect, useState } from "react";
 import React from "react";
 
-const  App = () => {
+const App = () => {
   const [user, setUser] = useState<User | null>(
     JSON.parse(window.localStorage.getItem("user") ?? "{}")?.user ?? null,
   );
@@ -52,6 +52,6 @@ const  App = () => {
       )}
     </div>
   );
-}
+};
 
 export default App;
