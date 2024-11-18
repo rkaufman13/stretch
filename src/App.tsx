@@ -4,7 +4,7 @@ import { getRedirectResult, User } from "firebase/auth";
 
 import { auth, signInWithGooglePopup } from "./firebase";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SignInButton } from "./sign-in/SignInButton";
 import { Spinner, Text } from "@chakra-ui/react";
 
