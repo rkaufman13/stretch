@@ -21,7 +21,7 @@
   },
   "scripts": {
     "serve": "vite",
-    "firebase:serve": "firebase emulators:start",
+    "firebase:serve": "firebase emulators:start --import=localdev/db",
     "start": "concurrently --names \"VITE,FIREBASE\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run serve\" \"npm run firebase:serve\"",
     "build": "tsc && vite build",
     "preview": "vite preview"
