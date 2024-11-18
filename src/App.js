@@ -1,18 +1,15 @@
 import "./App.css";
 
-import {
-  getAuth,
-  getRedirectResult,
-  signInWithPopup,
-  UserCredential
-} from "firebase/auth";
+import { getAuth, getRedirectResult, signInWithPopup } from "firebase/auth";
 
 import { auth, provider } from "./firebase";
 
 import { useEffect, useState } from "react";
 
 function App() {
-  const [user, setUser] = useState(JSON.parse(window.localStorage.getItem('user'))?.user ?? null);
+  const [user, setUser] = useState(
+    JSON.parse(window.localStorage.getItem("user"))?.user ?? null
+  );
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -20,7 +17,7 @@ function App() {
       .then((result) => {
         console.log(result);
         setUser(result.user);
-        window.localStorage.setItem('user', JSON.stringify(result))
+        window.localStorage.setItem("user", JSON.stringify(result));
       })
       .catch((e) => console.log(e));
   };
@@ -36,15 +33,11 @@ function App() {
   return (
     <div className="App">
       {user ? (
-        <div>Hello {user.name}</div>
+        <div>Hello {user.displayName}</div>
       ) : (
         <div>
           Please log in:{" "}
-          <form method="post" onSubmit={handleSignIn}>
-            <input name="email"></input>
-            <input name="password"></input>
-            <button type="submit">Sign In With Google</button>
-          </form>
+          <button onClick={handleSignIn}>Sign In With Google</button>
         </div>
       )}
     </div>

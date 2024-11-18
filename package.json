@@ -14,7 +14,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "firebase emulators:start && react-scripts start",
+    "start": "react-scripts start & firebase emulators:start --import=localdev/db",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
