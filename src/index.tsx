@@ -9,6 +9,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    // TODO: create & add ErrorElement component
   },
 ]);
 
