@@ -1,32 +1,38 @@
 import "./App.css";
 
-import { User } from "firebase/auth";
+import { getRedirectResult, User } from "firebase/auth";
 
 import { auth, signInWithGooglePopup } from "./firebase";
 
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const App = () => {
   const [user, setUser] = useState<User | null>(auth.currentUser);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSignIn =  (event: FormEvent<HTMLFormElement>) => {
-    setIsLoading(true)
-    event.preventDefault();
+  const handleSignIn = () => {
+    setIsLoading(true);
     signInWithGooglePopup()
       .then((result) => setUser(result.user))
-      .catch((e) => console.log(e));
+      .catch((_) => setIsLoading(false));
   };
 
   useEffect(() => {
     setIsLoading(true);
-    auth.onAuthStateChanged(async (user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
       }
-      setIsLoading(false)
+
+      setIsLoading(false);
     });
-  }, [auth]);
+
+    if (!user) {
+      getRedirectResult(auth)
+        .catch(console.warn)
+        .finally(() => setIsLoading(false));
+    }
+  }, [auth, user]);
 
   if (isLoading) {
     return <div className="App">
@@ -41,11 +47,7 @@ const App = () => {
       ) : (
         <div>
           Please log in:{" "}
-          <form method="post" onSubmit={handleSignIn}>
-            <input name="email"></input>
-            <input name="password"></input>
-            <button type="submit">Sign In With Google</button>
-          </form>
+          <button onClick={handleSignIn}>Sign In With Google</button>
         </div>
       )}
     </div>
