@@ -6,7 +6,7 @@ import { auth, signInWithGooglePopup } from "./firebase";
 
 import React, { useEffect, useState } from "react";
 import { SignInButton } from "./sign-in/SignInButton";
-import { Spinner } from "@chakra-ui/react";
+import { Spinner, Text } from "@chakra-ui/react";
 
 const App = () => {
   const [user, setUser] = useState<User | null>(auth.currentUser);
@@ -48,7 +48,7 @@ const App = () => {
     <>
       <div className="centered">
         {user ? (
-          <div>Hello {user.displayName}</div>
+          <Text>Hello {user.displayName}</Text>
         ) : (
           <SignInButton onClick={handleSignIn} />
         )}
