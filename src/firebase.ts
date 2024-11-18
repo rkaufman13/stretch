@@ -3,6 +3,7 @@ import {
   connectAuthEmulator,
   getAuth,
   GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 
 export const firebaseConfig = {
@@ -16,14 +17,21 @@ export const firebaseConfig = {
 };
 
 // Initialize Firebase
-
 const app = initializeApp(firebaseConfig);
 
+export const provider = new GoogleAuthProvider();
+
+// for localdev only
+if (import.meta.env.MODE === "development") {
+  connectAuthEmulator(getAuth(), "http://127.0.0.1:9099");
+} else {
+  provider.setCustomParameters({
+    prompt: "select_account",
+  });
+
+}
 export const auth = getAuth();
 
-export const provider = new GoogleAuthProvider();
-// export const provider = new EmailAuthProvider();
-if (import.meta.env.MODE === "development") {
-  connectAuthEmulator(auth, "http://127.0.0.1:9099");
-}
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
 export default app;

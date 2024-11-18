@@ -18,9 +18,6 @@
 .env.test.local
 .env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-ui-debug.log*
-database-debug.log*
-firebase-debug.log*
+*.log*
+
+.vscode/

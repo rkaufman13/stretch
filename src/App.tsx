@@ -1,40 +1,44 @@
 import "./App.css";
 
-import {
-  getAuth,
-  getRedirectResult,
-  signInWithPopup,
-  User,
-} from "firebase/auth";
+import { getRedirectResult, User } from "firebase/auth";
 
-import { auth, provider } from "./firebase";
+import { auth, signInWithGooglePopup } from "./firebase";
 
-import { useEffect, useState } from "react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const App = () => {
-  const [user, setUser] = useState<User | null>(
-    JSON.parse(window.localStorage.getItem("user") ?? "{}")?.user ?? null,
-  );
+  const [user, setUser] = useState<User | null>(auth.currentUser);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSignIn = (e) => {
-    e.preventDefault();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
-        setUser(result.user);
-        window.localStorage.setItem("user", JSON.stringify(result));
-      })
-      .catch((e) => console.log(e));
+  const handleSignIn = () => {
+    setIsLoading(true);
+    signInWithGooglePopup()
+      .then((result) => setUser(result.user))
+      .catch((_) => setIsLoading(false));
   };
 
   useEffect(() => {
+    setIsLoading(true);
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      }
+
+      setIsLoading(false);
+    });
+
     if (!user) {
-      getRedirectResult(getAuth())
-        .then((result) => console.log(result))
-        .catch((error) => console.log(error));
+      getRedirectResult(auth)
+        .catch(console.warn)
+        .finally(() => setIsLoading(false));
     }
-  }, [user]);
+  }, [auth, user]);
+
+  if (isLoading) {
+    return <div className="App">
+      Loading...
+    </div>
+  }
 
   return (
     <div className="App">
