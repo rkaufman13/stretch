@@ -1,14 +1,20 @@
 import "./App.css";
 
-import { getAuth, getRedirectResult, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  getRedirectResult,
+  signInWithPopup,
+  User,
+} from "firebase/auth";
 
 import { auth, provider } from "./firebase";
 
 import { useEffect, useState } from "react";
+import React from "react";
 
-function App() {
-  const [user, setUser] = useState(
-    JSON.parse(window.localStorage.getItem("user"))?.user ?? null
+const App = () => {
+  const [user, setUser] = useState<User | null>(
+    JSON.parse(window.localStorage.getItem("user") ?? "{}")?.user ?? null,
   );
 
   const handleSignIn = (e) => {
@@ -42,6 +48,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
 export default App;

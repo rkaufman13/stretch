@@ -15,7 +15,7 @@ Once the app is running on `localhost:3000`, you should be able to trigger a log
 
 #### Additional Issues:
 
-If firebase cli is installed but java is not (or not exported in the $PATH) you may get the following error: `Could not spawn java -version. Please make sure Java is installed and on exported on your system PATH` 
+If firebase cli is installed but java is not (or not exported in the $PATH) you may get the following error: `Could not spawn java -version. Please make sure Java is installed and on exported on your system PATH`
 
 If you're using ubuntu linux run `sudo apt install default-jdk` and it will handle everything.
 

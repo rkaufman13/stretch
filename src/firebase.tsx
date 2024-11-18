@@ -1,13 +1,12 @@
 import { initializeApp } from "firebase/app";
 import {
-  getAuth,
   connectAuthEmulator,
+  getAuth,
   GoogleAuthProvider,
-  EmailAuthProvider,
 } from "firebase/auth";
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyBVCyNLMhmnbp7CCbM3ghq_wuiEp0ZFU-c",
+  apiKey: "AIzaSyBVCyNLMhmnbp7CCbM3ghq_wuiEp0ZFU-c", // lmao
   authDomain: "stretch-5cf3f.firebaseapp.com",
   databaseURL: "https://stretch-5cf3f-default-rtdb.firebaseio.com",
   projectId: "stretch-5cf3f",
@@ -23,8 +22,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 
 export const provider = new GoogleAuthProvider();
-//export const provider = new EmailAuthProvider();
-if (process.env.NODE_ENV === "development") {
+// export const provider = new EmailAuthProvider();
+if (import.meta.env.MODE === "development") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
 }
 export default app;
