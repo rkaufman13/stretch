@@ -4,7 +4,9 @@ import { getRedirectResult, User } from "firebase/auth";
 
 import { auth, signInWithGooglePopup } from "./firebase";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { SignInButton } from "./sign-in/SignInButton";
+import { Spinner, Text } from "@chakra-ui/react";
 
 const App = () => {
   const [user, setUser] = useState<User | null>(auth.currentUser);
@@ -35,22 +37,23 @@ const App = () => {
   }, [auth, user]);
 
   if (isLoading) {
-    return <div className="App">
-      Loading...
-    </div>
+    return (
+      <div className="centered">
+        <Spinner size="lg" color="var(--logo-color)" />
+      </div>
+    );
   }
 
   return (
-    <div className="App">
-      {user ? (
-        <div>Hello {user.displayName}</div>
-      ) : (
-        <div>
-          Please log in:{" "}
-          <button onClick={handleSignIn}>Sign In With Google</button>
-        </div>
-      )}
-    </div>
+    <>
+      <div className="centered">
+        {user ? (
+          <Text>Hello {user.displayName}</Text>
+        ) : (
+          <SignInButton onClick={handleSignIn} />
+        )}
+      </div>
+    </>
   );
 };
 
