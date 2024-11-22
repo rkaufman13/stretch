@@ -15,11 +15,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const { pathname } = useLocation();
 
-  const mustBeRedirected = !user && pathname !== "/";
+  const isBasePath = pathname === "/";
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {mustBeRedirected ? <Navigate to="/" /> : children}
+      <>{user ? children : isBasePath ? children : <Navigate to="/" />}</>
     </UserContext.Provider>
   );
 };
