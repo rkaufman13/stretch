@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { SignInButton } from "./sign-in/SignInButton";
 import { useCurrentUser } from "./user/UserProvider";
 
-const App = () => {
+const App: React.FC = () => {
   const { user, setUser } = useCurrentUser();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

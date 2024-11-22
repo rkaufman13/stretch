@@ -19,7 +19,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <>{user ? children : isBasePath ? children : <Navigate to="/" />}</>
+      {user ? children : isBasePath ? children : <Navigate to="/" />}
     </UserContext.Provider>
   );
 };

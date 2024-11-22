@@ -18,15 +18,15 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Session />,
-    // TODO: create & add ErrorElement component
     children: [
       {
-        path: "",
-        element: <App />,
-      },
-      {
-        path: "about",
-        element: <div>hello</div>,
+        children: [
+          { index: true, element: <App /> },
+          {
+            path: "about",
+            element: <div>hello</div>,
+          },
+        ],
       },
     ],
   },
