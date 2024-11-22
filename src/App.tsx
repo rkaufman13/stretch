@@ -1,17 +1,16 @@
 import "./App.css";
 
-import { getRedirectResult, User } from "firebase/auth";
+import { getRedirectResult } from "firebase/auth";
 
 import { auth, signInWithGooglePopup } from "./firebase";
 
-import { useContext, useEffect, useState } from "react";
-import { SignInButton } from "./sign-in/SignInButton";
 import { Spinner, Text } from "@chakra-ui/react";
-import { UserContext } from "./user/UserProvider";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { SignInButton } from "./sign-in/SignInButton";
+import { useCurrentUser } from "./user/UserProvider";
 
 const App = () => {
-  const  {user, setUser}= useContext(UserContext)
+  const { user, setUser } = useCurrentUser();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSignIn = () => {
