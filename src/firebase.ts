@@ -27,8 +27,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const provider = new GoogleAuthProvider();
-export const auth = getAuth();
-const database = getDatabase();
+export const auth = getAuth(app);
+const database = getDatabase(app);
 
 export const getUserHistory = (userId: string) => {
   const historyRef = ref(database, `users/${userId}`);
