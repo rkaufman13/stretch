@@ -1,17 +1,22 @@
 import "./App.css";
 
-import { getRedirectResult, User } from "firebase/auth";
+import { getRedirectResult } from "firebase/auth";
 
-import { auth, getUserHistory, getUserProfile, signInWithGooglePopup } from "./firebase";
+import {
+  auth,
+  getUserHistory,
+  getUserProfile,
+  signInWithGooglePopup,
+} from "./firebase";
 
+import { Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { SignInButton } from "./sign-in/SignInButton";
-import { Spinner, Text } from "@chakra-ui/react";
-
+import { useCurrentUser } from "./user/UserProvider";
 import { UserHistoryEntry, UserProfile } from "./types";
 
-const App = () => {
-  const [user, setUser] = useState<User | null>(auth.currentUser);
+const App: React.FC = () => {
+  const { user, setUser } = useCurrentUser();
   const [history, setHistory] = useState<UserHistoryEntry[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile | null>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -20,33 +25,35 @@ const App = () => {
     setIsLoading(true);
     signInWithGooglePopup()
       .then((result) => setUser(result.user))
-      .catch((_) => setIsLoading(false));
+      .catch(() => setIsLoading(false));
   };
 
-  const loadHistory = (userId: string): void => {
-    getUserHistory(userId).then((newHistory: UserHistoryEntry[]) => setHistory(newHistory)).catch(e => console.log(e));
+  const loadHistory = (userId: string): Promise<void> => {
+    return getUserHistory(userId)
+      .then((newHistory: UserHistoryEntry[]) => setHistory(newHistory))
+      .catch(console.warn);
+  };
 
-  }
-
-  const loadUserProfile = (userId: string): void => {
-    getUserProfile(userId).then((newUserProfile: UserProfile) => setUserProfile(newUserProfile)).catch(e => console.log(e));
-  }
+  const loadUserProfile = (userId: string): Promise<void> => {
+    return getUserProfile(userId)
+      .then((newUserProfile: UserProfile) => setUserProfile(newUserProfile))
+      .catch(console.warn);
+  };
 
   useEffect(() => {
     setIsLoading(true);
     auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
-      }
-      if (user) {
-        loadHistory(user.uid);
-        loadUserProfile(user.uid);
-      }
 
-      setIsLoading(false);
+        Promise.all([loadHistory(user.uid), loadUserProfile(user.uid)])
+          .catch(console.warn)
+          .finally(() => setIsLoading(false));
+      }
     });
 
     if (!user) {
+      setIsLoading(true);
       getRedirectResult(auth)
         .catch(console.warn)
         .finally(() => setIsLoading(false));
@@ -65,8 +72,7 @@ const App = () => {
     <>
       <div className="centered">
         {user && userProfile ? (
-          <Text>Hello {userProfile.first}.
-          </Text>
+          <Text>Hello {userProfile.first}.</Text>
         ) : (
           <SignInButton onClick={handleSignIn} />
         )}

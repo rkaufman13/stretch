@@ -3,13 +3,32 @@ import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { UserProvider } from "./user/UserProvider";
+
+const Session: React.FC = () => {
+  return (
+    <UserProvider>
+      <Outlet />
+    </UserProvider>
+  );
+};
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-    // TODO: create & add ErrorElement component
+    element: <Session />,
+    children: [
+      {
+        children: [
+          { index: true, element: <App /> },
+          {
+            path: "about", // TODO: not curently working, too much to explain
+            element: <div>hello</div>,
+          },
+        ],
+      },
+    ],
   },
 ]);
 

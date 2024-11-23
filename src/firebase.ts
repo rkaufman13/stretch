@@ -7,15 +7,13 @@ import {
 } from "firebase/auth";
 
 import {
-  getDatabase,
   connectDatabaseEmulator,
-  ref,
   get,
+  getDatabase,
+  ref,
 } from "firebase/database";
 
-import { UserHistoryEntry } from "./types";
-
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBVCyNLMhmnbp7CCbM3ghq_wuiEp0ZFU-c", // lmao
   authDomain: "stretch-5cf3f.firebaseapp.com",
   databaseURL: "https://stretch-5cf3f-default-rtdb.firebaseio.com",
@@ -29,16 +27,16 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const provider = new GoogleAuthProvider();
-export const auth = getAuth();
-const database = getDatabase();
+export const auth = getAuth(app);
+const database = getDatabase(app);
 
-export const getUserHistory = (userID: string) => {
-  const historyRef = ref(database, "history/" + userID);
+export const getUserHistory = (userId: string) => {
+  const historyRef = ref(database, `users/${userId}`);
   return get(historyRef)
     .then((snapshot) => {
       return snapshot.val();
     })
-    .catch((e) => console.log(e));
+    .catch(console.error);
 };
 
 export const getUserProfile = (userId: string) => {
@@ -47,18 +45,19 @@ export const getUserProfile = (userId: string) => {
     .then((snapshot) => {
       return snapshot.val();
     })
-    .catch((e) => console.log(e));
+    .catch(console.error);
 };
 
 // for localdev only
 if (import.meta.env.MODE === "development") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
-  connectDatabaseEmulator(database, "127.0.0.1", 9000); //this method uses a totally different method signature lawl
+  connectDatabaseEmulator(database, "127.0.0.1", 9000); //this method uses a totally different method signature lawl (sick)
 } else {
   provider.setCustomParameters({
     prompt: "select_account",
   });
 }
+
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export default app;
