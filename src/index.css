@@ -6,7 +6,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /* TODO: move these into chakra system.config */
   font-family: "Quicksand", sans-serif;
-  --logo-color: #3a2369;
+  --logo-color: rgba(58, 35, 105, 1);
+  --bg-color: rgba(58, 35, 105, 0.25);
 }
 
 code {

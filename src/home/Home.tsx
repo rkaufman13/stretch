@@ -6,7 +6,7 @@ export const Home: React.FC = () => {
       className="centered"
       style={{ backgroundSize: "min(65vmax, 600px) auto" }}
     >
-      <Card.Root>
+      <Card.Root backgroundColor="var(--bg-color)" color="var(--logo-color)">
         <Card.Header textAlign="center">
           Here's a video. Get your stretch on!
         </Card.Header>
