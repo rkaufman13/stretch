@@ -5,6 +5,7 @@ import ReactDOM from "react-dom/client";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { UserProvider } from "./user/UserProvider";
+import { Home } from "./home/Home";
 
 const Session: React.FC = () => {
   return (
@@ -23,8 +24,8 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <App /> },
           {
-            path: "about", // TODO: not curently working, too much to explain
-            element: <div>hello</div>,
+            path: "home",
+            element: <Home />,
           },
         ],
       },

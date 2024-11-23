@@ -7,7 +7,6 @@ body {
   /* TODO: move these into chakra system.config */
   font-family: "Quicksand", sans-serif;
   --logo-color: #3a2369;
-  background: 52% 0/60% no-repeat url("/stretch.svg");
 }
 
 code {
@@ -24,4 +23,5 @@ code {
   align-items: center;
   flex-direction: column;
   contain: content;
+  background: url("/stretch.svg") 50% 0 / 65vmax no-repeat;
 }
