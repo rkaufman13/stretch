@@ -2,9 +2,10 @@
 
 body {
   margin: 0;
-  font-family: "Quicksand", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* TODO: move these into chakra system.config */
+  font-family: "Quicksand", sans-serif;
   --logo-color: #3a2369;
   background: 52% 0/60% no-repeat url("/stretch.svg");
 }
