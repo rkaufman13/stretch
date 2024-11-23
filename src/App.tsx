@@ -2,15 +2,18 @@ import "./App.css";
 
 import { getRedirectResult } from "firebase/auth";
 
-import { auth, signInWithGooglePopup } from "./firebase";
+import { auth, getUserHistory, getUserProfile, signInWithGooglePopup } from "./firebase";
 
 import { Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { SignInButton } from "./sign-in/SignInButton";
 import { useCurrentUser } from "./user/UserProvider";
+import { UserHistoryEntry, UserProfile } from "./types";
 
 const App: React.FC = () => {
   const { user, setUser } = useCurrentUser();
+  const [history, setHistory] = useState<UserHistoryEntry[]>([]);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSignIn = () => {
@@ -20,11 +23,24 @@ const App: React.FC = () => {
       .catch((_) => setIsLoading(false));
   };
 
+  const loadHistory = (userId: string): void => {
+    getUserHistory(userId).then((newHistory: UserHistoryEntry[]) => setHistory(newHistory)).catch(e => console.log(e));
+
+  }
+
+  const loadUserProfile = (userId: string): void => {
+    getUserProfile(userId).then((newUserProfile: UserProfile) => setUserProfile(newUserProfile)).catch(e => console.log(e));
+  }
+
   useEffect(() => {
     setIsLoading(true);
     auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
+      }
+      if (user) {
+        loadHistory(user.uid);
+        loadUserProfile(user.uid);
       }
 
       setIsLoading(false);
@@ -48,8 +64,9 @@ const App: React.FC = () => {
   return (
     <>
       <div className="centered">
-        {user ? (
-          <Text>Hello {user.displayName}</Text>
+        {user && userProfile ? (
+          <Text>Hello {userProfile.first}.
+          </Text>
         ) : (
           <SignInButton onClick={handleSignIn} />
         )}

@@ -6,6 +6,15 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 
+import {
+  getDatabase,
+  connectDatabaseEmulator,
+  ref,
+  get,
+} from "firebase/database";
+
+import { UserHistoryEntry } from "./types";
+
 export const firebaseConfig = {
   apiKey: "AIzaSyBVCyNLMhmnbp7CCbM3ghq_wuiEp0ZFU-c", // lmao
   authDomain: "stretch-5cf3f.firebaseapp.com",
@@ -21,10 +30,30 @@ const app = initializeApp(firebaseConfig);
 
 export const provider = new GoogleAuthProvider();
 export const auth = getAuth();
+const database = getDatabase();
+
+export const getUserHistory = (userID: string) => {
+  const historyRef = ref(database, "history/" + userID);
+  return get(historyRef)
+    .then((snapshot) => {
+      return snapshot.val();
+    })
+    .catch((e) => console.log(e));
+};
+
+export const getUserProfile = (userId: string) => {
+  const userProfileRef = ref(database, `users/${userId}`);
+  return get(userProfileRef)
+    .then((snapshot) => {
+      return snapshot.val();
+    })
+    .catch((e) => console.log(e));
+};
 
 // for localdev only
 if (import.meta.env.MODE === "development") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  connectDatabaseEmulator(database, "127.0.0.1", 9000); //this method uses a totally different method signature lawl
 } else {
   provider.setCustomParameters({
     prompt: "select_account",
