@@ -13,7 +13,7 @@ import {
   ref,
 } from "firebase/database";
 
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBVCyNLMhmnbp7CCbM3ghq_wuiEp0ZFU-c", // lmao
   authDomain: "stretch-5cf3f.firebaseapp.com",
   databaseURL: "https://stretch-5cf3f-default-rtdb.firebaseio.com",
@@ -36,7 +36,7 @@ export const getUserHistory = (userId: string) => {
     .then((snapshot) => {
       return snapshot.val();
     })
-    .catch((e) => console.log(e));
+    .catch(console.error);
 };
 
 export const getUserProfile = (userId: string) => {
@@ -45,7 +45,7 @@ export const getUserProfile = (userId: string) => {
     .then((snapshot) => {
       return snapshot.val();
     })
-    .catch((e) => console.log(e));
+    .catch(console.error);
 };
 
 // for localdev only
@@ -57,6 +57,7 @@ if (import.meta.env.MODE === "development") {
     prompt: "select_account",
   });
 }
+
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export default app;
