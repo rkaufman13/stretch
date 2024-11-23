@@ -25,8 +25,7 @@ const App: React.FC = () => {
     setIsLoading(true);
     signInWithGooglePopup()
       .then((result) => setUser(result.user))
-      .catch(console.warn)
-      .finally(() => setIsLoading(false));
+      .catch(() => setIsLoading(false));
   };
 
   const loadHistory = (userId: string): Promise<void> => {
