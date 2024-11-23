@@ -2,7 +2,12 @@ import "./App.css";
 
 import { getRedirectResult } from "firebase/auth";
 
-import { auth, getUserHistory, getUserProfile, signInWithGooglePopup } from "./firebase";
+import {
+  auth,
+  getUserHistory,
+  getUserProfile,
+  signInWithGooglePopup,
+} from "./firebase";
 
 import { Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -24,13 +29,16 @@ const App: React.FC = () => {
   };
 
   const loadHistory = (userId: string): void => {
-    getUserHistory(userId).then((newHistory: UserHistoryEntry[]) => setHistory(newHistory)).catch(e => console.log(e));
-
-  }
+    getUserHistory(userId)
+      .then((newHistory: UserHistoryEntry[]) => setHistory(newHistory))
+      .catch((e) => console.log(e));
+  };
 
   const loadUserProfile = (userId: string): void => {
-    getUserProfile(userId).then((newUserProfile: UserProfile) => setUserProfile(newUserProfile)).catch(e => console.log(e));
-  }
+    getUserProfile(userId)
+      .then((newUserProfile: UserProfile) => setUserProfile(newUserProfile))
+      .catch((e) => console.log(e));
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -65,8 +73,7 @@ const App: React.FC = () => {
     <>
       <div className="centered">
         {user && userProfile ? (
-          <Text>Hello {userProfile.first}.
-          </Text>
+          <Text>Hello {userProfile.first}.</Text>
         ) : (
           <SignInButton onClick={handleSignIn} />
         )}
