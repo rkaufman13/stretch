@@ -7,13 +7,11 @@ import {
 } from "firebase/auth";
 
 import {
-  getDatabase,
   connectDatabaseEmulator,
-  ref,
   get,
+  getDatabase,
+  ref,
 } from "firebase/database";
-
-import { UserHistoryEntry } from "./types";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBVCyNLMhmnbp7CCbM3ghq_wuiEp0ZFU-c", // lmao

@@ -25,19 +25,20 @@ const App: React.FC = () => {
     setIsLoading(true);
     signInWithGooglePopup()
       .then((result) => setUser(result.user))
-      .catch((_) => setIsLoading(false));
+      .catch(console.warn)
+      .finally(() => setIsLoading(false));
   };
 
-  const loadHistory = (userId: string): void => {
-    getUserHistory(userId)
+  const loadHistory = (userId: string): Promise<void> => {
+    return getUserHistory(userId)
       .then((newHistory: UserHistoryEntry[]) => setHistory(newHistory))
-      .catch((e) => console.log(e));
+      .catch(console.warn);
   };
 
-  const loadUserProfile = (userId: string): void => {
-    getUserProfile(userId)
+  const loadUserProfile = (userId: string): Promise<void> => {
+    return getUserProfile(userId)
       .then((newUserProfile: UserProfile) => setUserProfile(newUserProfile))
-      .catch((e) => console.log(e));
+      .catch(console.warn);
   };
 
   useEffect(() => {
@@ -45,16 +46,15 @@ const App: React.FC = () => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
-      }
-      if (user) {
-        loadHistory(user.uid);
-        loadUserProfile(user.uid);
-      }
 
-      setIsLoading(false);
+        Promise.all([loadHistory(user.uid), loadUserProfile(user.uid)])
+          .catch(console.warn)
+          .finally(() => setIsLoading(false));
+      }
     });
 
     if (!user) {
+      setIsLoading(true);
       getRedirectResult(auth)
         .catch(console.warn)
         .finally(() => setIsLoading(false));
