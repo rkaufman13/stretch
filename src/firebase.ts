@@ -32,8 +32,8 @@ export const provider = new GoogleAuthProvider();
 export const auth = getAuth();
 const database = getDatabase();
 
-export const getUserHistory = (userID: string) => {
-  const historyRef = ref(database, "history/" + userID);
+export const getUserHistory = (userId: string) => {
+  const historyRef = ref(database, `users/${userId}`);
   return get(historyRef)
     .then((snapshot) => {
       return snapshot.val();
@@ -53,7 +53,7 @@ export const getUserProfile = (userId: string) => {
 // for localdev only
 if (import.meta.env.MODE === "development") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
-  connectDatabaseEmulator(database, "127.0.0.1", 9000); //this method uses a totally different method signature lawl
+  connectDatabaseEmulator(database, "127.0.0.1", 9000); //this method uses a totally different method signature lawl (sick)
 } else {
   provider.setCustomParameters({
     prompt: "select_account",
