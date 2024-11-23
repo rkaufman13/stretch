@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --logo-color: #3a2369;
+  background: 52% 0/60% no-repeat url("/stretch.svg");
 }
 
 code {
@@ -22,5 +23,4 @@ code {
   align-items: center;
   flex-direction: column;
   contain: content;
-  background: 52% 0/60% no-repeat url("/stretch.svg");
 }
