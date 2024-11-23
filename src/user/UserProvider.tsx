@@ -1,11 +1,6 @@
 import { CenteredSpinner } from "@/spinner/CenteredSpinner";
 import { User } from "firebase/auth";
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useState
-} from "react";
+import React, { createContext, ReactNode, useContext, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { auth } from "../firebase";
 
@@ -26,12 +21,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   auth.authStateReady().then(() => {
     setAwaitFirebaseAuth(false);
     setUser(auth.currentUser);
-  })
+  });
 
   if (awaitFirebaseAuth) {
-    return (
-      <CenteredSpinner />
-    );
+    return <CenteredSpinner />;
   }
 
   const isBasePath = pathname === "/";

@@ -18,7 +18,7 @@ import { useCurrentUser } from "./user/UserProvider";
 
 const App: React.FC = () => {
   const { user, setUser } = useCurrentUser();
-  const [history, setHistory] = useState<UserHistoryEntry[]>([]);
+  const [, setHistory] = useState<UserHistoryEntry[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile | null>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -63,7 +63,7 @@ const App: React.FC = () => {
   }, [user]);
 
   if (isLoading) {
-    return <CenteredSpinner />
+    return <CenteredSpinner />;
   }
 
   return (
