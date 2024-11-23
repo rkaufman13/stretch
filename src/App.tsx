@@ -9,11 +9,12 @@ import {
   signInWithGooglePopup,
 } from "./firebase";
 
-import { Spinner, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { SignInButton } from "./sign-in/SignInButton";
-import { useCurrentUser } from "./user/UserProvider";
+import { CenteredSpinner } from "./spinner/CenteredSpinner";
 import { UserHistoryEntry, UserProfile } from "./types";
+import { useCurrentUser } from "./user/UserProvider";
 
 const App: React.FC = () => {
   const { user, setUser } = useCurrentUser();
@@ -41,38 +42,35 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-
-        Promise.all([loadHistory(user.uid), loadUserProfile(user.uid)])
-          .catch(console.warn)
-          .finally(() => setIsLoading(false));
-      }
-    });
+    if (user) {
+      setIsLoading(true);
+      Promise.all([loadHistory(user.uid), loadUserProfile(user.uid)])
+        .catch(console.warn)
+        .finally(() => setIsLoading(false));
+    }
 
     if (!user) {
       setIsLoading(true);
       getRedirectResult(auth)
+        .then((cred) => {
+          if (cred) {
+            setUser(cred.user);
+          }
+        })
         .catch(console.warn)
         .finally(() => setIsLoading(false));
     }
-  }, [auth, user]);
+  }, [user]);
 
   if (isLoading) {
-    return (
-      <div className="centered">
-        <Spinner size="lg" color="var(--logo-color)" />
-      </div>
-    );
+    return <CenteredSpinner />
   }
 
   return (
     <>
       <div className="centered">
-        {user && userProfile ? (
-          <Text>Hello {userProfile.first}.</Text>
+        {user ? (
+          <Text>Hello {userProfile?.first ?? user.displayName}.</Text>
         ) : (
           <SignInButton onClick={handleSignIn} />
         )}
