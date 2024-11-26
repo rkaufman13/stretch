@@ -15,10 +15,11 @@ import { SignInButton } from "./sign-in/SignInButton";
 import { CenteredSpinner } from "./spinner/CenteredSpinner";
 import { UserHistoryEntry, UserProfile } from "./types";
 import { useCurrentUser } from "./user/UserProvider";
+import { HistoryComponent } from "./history/history";
 
 const App: React.FC = () => {
   const { user, setUser } = useCurrentUser();
-  const [, setHistory] = useState<UserHistoryEntry[]>([]);
+  const [history, setHistory] = useState<UserHistoryEntry[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile | null>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -70,7 +71,10 @@ const App: React.FC = () => {
     <>
       <div className="centered">
         {user ? (
-          <Text>Hello {userProfile?.first ?? user.displayName}.</Text>
+          <>
+            <Text>Hello {userProfile?.first ?? user.displayName}.</Text>
+            <HistoryComponent history={history} />
+          </>
         ) : (
           <SignInButton onClick={handleSignIn} />
         )}
