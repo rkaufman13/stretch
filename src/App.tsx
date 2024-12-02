@@ -15,11 +15,15 @@ import { SignInButton } from "./sign-in/SignInButton";
 import { CenteredSpinner } from "./spinner/CenteredSpinner";
 import { UserHistoryEntry, UserProfile } from "./types";
 import { useCurrentUser } from "./user/UserProvider";
+
+import { HistoryComponent } from "./history/history";
+
 import { useNavigate } from "react-router-dom";
+
 
 const App: React.FC = () => {
   const { user, setUser } = useCurrentUser();
-  const [, setHistory] = useState<UserHistoryEntry[]>([]);
+  const [history, setHistory] = useState<UserHistoryEntry[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile | null>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -73,6 +77,7 @@ const App: React.FC = () => {
     <>
       <div className="centered">
         {user ? (
+
           <Stack>
             <Text>Hello {userProfile?.first ?? user.displayName}.</Text>
             <Button
@@ -81,7 +86,9 @@ const App: React.FC = () => {
             >
               Enter
             </Button>
+                        <HistoryComponent history={history} />
           </Stack>
+
         ) : (
           <SignInButton onClick={handleSignIn} />
         )}

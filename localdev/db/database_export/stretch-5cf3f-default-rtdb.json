@@ -3,7 +3,10 @@
     "tUSlRnnEK9BVFSoZzKGGXlx98ryT": { "first": "rachel", "last": "k" }
   },
   "history": {
-    "tUSlRnnEK9BVFSoZzKGGXlx98ryT": { "1732125499": true, "1732115499": false }
+    "tUSlRnnEK9BVFSoZzKGGXlx98ryT": [
+      { "timestamp": 1732125499, "didIt": true },
+      { "timestamp": 1032115499, "didIt": false }
+    ]
   },
   "videos": {
     "duration": {

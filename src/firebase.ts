@@ -31,7 +31,7 @@ export const auth = getAuth(app);
 const database = getDatabase(app);
 
 export const getUserHistory = (userId: string) => {
-  const historyRef = ref(database, `users/${userId}`);
+  const historyRef = ref(database, `history/${userId}`);
   return get(historyRef)
     .then((snapshot) => {
       return snapshot.val();
