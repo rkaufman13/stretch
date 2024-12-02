@@ -9,19 +9,25 @@ import {
   signInWithGooglePopup,
 } from "./firebase";
 
-import { Text } from "@chakra-ui/react";
+import { Button, Stack, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { SignInButton } from "./sign-in/SignInButton";
 import { CenteredSpinner } from "./spinner/CenteredSpinner";
 import { UserHistoryEntry, UserProfile } from "./types";
 import { useCurrentUser } from "./user/UserProvider";
+
 import { HistoryComponent } from "./history/history";
+
+import { useNavigate } from "react-router-dom";
+
 
 const App: React.FC = () => {
   const { user, setUser } = useCurrentUser();
   const [history, setHistory] = useState<UserHistoryEntry[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile | null>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const handleSignIn = () => {
     setIsLoading(true);
@@ -71,10 +77,18 @@ const App: React.FC = () => {
     <>
       <div className="centered">
         {user ? (
-          <>
+
+          <Stack>
             <Text>Hello {userProfile?.first ?? user.displayName}.</Text>
-            <HistoryComponent history={history} />
-          </>
+            <Button
+              background="var(--logo-color)"
+              onClick={() => navigate("home")}
+            >
+              Enter
+            </Button>
+                        <HistoryComponent history={history} />
+          </Stack>
+
         ) : (
           <SignInButton onClick={handleSignIn} />
         )}
