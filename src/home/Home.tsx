@@ -1,6 +1,12 @@
 import { Card, CardBody } from "@chakra-ui/react";
+import { getVideo } from "@/utils";
 
 export const Home: React.FC = () => {
+
+  const videoSrc = getVideo();
+
+
+
   return (
     <div
       className="centered"
@@ -14,7 +20,7 @@ export const Home: React.FC = () => {
           <iframe
             width="100%"
             height="315"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=MUsmvini5-5eZn_7"
+            src={videoSrc}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
